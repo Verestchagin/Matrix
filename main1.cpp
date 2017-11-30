@@ -30,8 +30,12 @@ int main(int argc, char *argv[]){
 			else flagm = false;
 			g++;
 		}
+		int countzapyataya = 0;
 		for (int i = 0; i < strlen(argv[2]); i++){
-			if (argv[2][i] == ',') zapyataya = true;
+			if (argv[2][i] == ','){
+				zapyataya = true;
+				countzapyataya++;
+			}
 		}
 		if (zapyataya == false) probel = true;
 		
@@ -43,56 +47,62 @@ int main(int argc, char *argv[]){
 				a[i][j] = 0;
 		
 		int inpn = 0, inpm = 0;
-		bool flag_matrix = true, flag_end_of_matrix = false;
+		bool flag_matrix = true, flag_end_of_matrix = false, flag_total_count = true;
 		if (zapyataya == true){
-			for (int i = 0; i < strlen(argv[2]); i++){
-				if (counta < n * m){
-					if ((argv[2][i] >= '0') && (argv[2][i] <= '9')) a[inpn][inpm] = a[inpn][inpm] * 10 + argv[2][i] - 48;
-					else{
-						if (argv[2][i] == ','){
-							if ((inpm != m - 1) && (counta + 1 != n * m)){
-								inpm++;
-								counta++;
-							}
-							else{
-								if (counta + 1 != n * m){
-									inpm = 0;
-									inpn++;
+			if (n * m <= countzapyataya + 1){
+				for (int i = 0; i < strlen(argv[2]); i++){
+					if (counta < n * m){
+						if ((argv[2][i] >= '0') && (argv[2][i] <= '9')) a[inpn][inpm] = a[inpn][inpm] * 10 + argv[2][i] - 48;
+						else{
+							if (argv[2][i] == ','){
+								if ((inpm != m - 1) && (counta + 1 != n * m)){
+									inpm++;
 									counta++;
 								}
 								else{
-									flag_end_of_matrix = true;
-									counta++;
+									if (counta + 1 != n * m){
+										inpm = 0;
+										inpn++;
+										counta++;
+									}
+									else{
+										flag_end_of_matrix = true;
+										counta++;
+									}
 								}
 							}
-	
+							else flag_matrix = false;
 						}
-						else flag_matrix = false;
 					}
 				}
 			}
+			else flag_total_count = false;
 		}
 		else{
-			for (int i = 0; i < n * m; i++){
-				for (int j = 0; j < strlen(argv[i + 2]); j++){
-					if ((argv[i + 2][j] >= '0') && (argv[i + 2][j] <= '9'))
-						;
-					else flag_matrix = false;
+			if (n * m <= argc - 2){
+				for (int i = 0; i < n * m; i++){
+					for (int j = 0; j < strlen(argv[i + 2]); j++){
+						if ((argv[i + 2][j] >= '0') && (argv[i + 2][j] <= '9'))
+							;
+						else flag_matrix = false;
+					}
+					if (flag_matrix == true) a[inpn][inpm] = atoi(argv[i + 2]);
+					if (inpm != m - 1){
+						inpm++;
+						counta++;
+					}
+					else{
+						inpm = 0;
+						inpn++;
+					}
 				}
-				if (flag_matrix == true) a[inpn][inpm] = atoi(argv[i + 2]);
-				if (inpm != m - 1){
-					inpm++;
-					counta++;
-				}
-				else{
-					inpm = 0;
-					inpn++;
-				}
+				counta++;
 			}
-			counta++;
+			else flag_total_count = false;
 		}
 		if (flag_end_of_matrix == false) counta++;
-		if ((flagn == false) || (flagm == false) || (flag_matrix == false)) cout << "You entered incorrect data" << endl;
+		
+		if ((flagn == false) || (flagm == false) || (flag_matrix == false) || (flag_total_count == false)) cout << "You entered incorrect data" << endl;
 		else{
 			while(true){
 				int ch = 0;
