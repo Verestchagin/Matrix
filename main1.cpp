@@ -49,7 +49,6 @@ int main(int argc, char *argv[]){
 		int inpn = 0, inpm = 0;
 		bool flag_matrix = true, flag_end_of_matrix = false, flag_total_count = true;
 		if (zapyataya == true){
-			if (n * m <= countzapyataya + 1){
 				for (int i = 0; i < strlen(argv[2]); i++){
 					if (counta < n * m){
 						if ((argv[2][i] >= '0') && (argv[2][i] <= '9')) a[inpn][inpm] = a[inpn][inpm] * 10 + argv[2][i] - 48;
@@ -75,12 +74,9 @@ int main(int argc, char *argv[]){
 						}
 					}
 				}
-			}
-			else flag_total_count = false;
 		}
 		else{
-			if (n * m <= argc - 2){
-				for (int i = 0; i < n * m; i++){
+				for (int i = 0; i < argc - 2; i++){
 					for (int j = 0; j < strlen(argv[i + 2]); j++){
 						if ((argv[i + 2][j] >= '0') && (argv[i + 2][j] <= '9'))
 							;
@@ -97,12 +93,10 @@ int main(int argc, char *argv[]){
 					}
 				}
 				counta++;
-			}
-			else flag_total_count = false;
 		}
 		if (flag_end_of_matrix == false) counta++;
 		
-		if ((flagn == false) || (flagm == false) || (flag_matrix == false) || (flag_total_count == false)) cout << "You entered incorrect data" << endl;
+		if ((flagn == false) || (flagm == false) || (flag_matrix == false)) cout << "You entered incorrect data" << endl;
 		else{
 			while(true){
 				int ch = 0;
