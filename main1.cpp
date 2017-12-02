@@ -46,7 +46,7 @@ int main(int argc, char *argv[]){
 			for (int j = 0; j < m; j++)
 				a[i][j] = 0;
 		
-		int inpn = 0, inpm = 0;
+		int inpn = 0, inpm = 0, v = 0;
 		bool flag_matrix = true, flag_end_of_matrix = false, flag_total_count = true;
 		if (zapyataya == true){
 				for (int i = 0; i < strlen(argv[2]); i++){
@@ -76,7 +76,9 @@ int main(int argc, char *argv[]){
 				}
 		}
 		else{
-				for (int i = 0; i < argc - 2; i++){
+			if (argc - 2 > n * m) v = n * m;
+			else v = argc - 2;
+				for (int i = 0; i < v; i++){
 					for (int j = 0; j < strlen(argv[i + 2]); j++){
 						if ((argv[i + 2][j] >= '0') && (argv[i + 2][j] <= '9'))
 							;
