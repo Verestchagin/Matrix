@@ -4,30 +4,27 @@
 #include <string.h>
 using namespace std;
 
-void print_matrix(int **&matrix, int &n, int &m){
-	cout << "n= "<<n<<" m= "<<m<<endl; 
+void print_matrix(int **&a, int &n, int &m){
 	for (int i = 0; i < n; i++){
 		for (int j = 0; j < m; j++){
-			cout << matrix[i][j] << " ";
+			cout << a[i][j] << " ";
 		}
 		cout << endl;
 	}
 }
 
 void delete_matrix(int **&a, int &n){
-	if (a != nullptr){
-		for (int i = 0; i < n; i++) delete[] a[i];
-		delete [] a;
-	}
+	for (int i = 0; i < n; i++) delete[] a[i];
+	delete [] a;
 }
 
 void sum_matrixs(int **&a, int &n, int &m){
 	cout << "Input new matrix " << n << "x" << m << endl;
 	int **b = new int*[n];
-	for(int i = 0; i < n; i++)
+	for (int i = 0; i < n; i++)
 		b[i] = new int[m];
 	for (int i = 0; i < n; i++){
-		for(int j = 0; j < m; j++){
+		for (int j = 0; j < m; j++){
 			cin >> b[i][j];
 			a[i][j] = a[i][j] + b[i][j];
 		}
@@ -38,19 +35,34 @@ void sum_matrixs(int **&a, int &n, int &m){
 void multiplacation_matrixs(int **&a, int &n, int &m){
 	cout << "Input a size of new matrix" << endl;
 	int m1 = 0, k = 0;
-	cin >> m1 >> k;
+	char size_mult[256], nmult[256], mmult[256];
+	cin >> size_mult;
+	int l = 0, l1 = 0;
+	bool flag_size = true;
+	while (size_mult[l] != 'x'){
+		nmult[l] = size_mult[l];
+		l++;
+	}
+	l++;
+	while (l < strlen(size_mult)){
+		mmult[l1] = size_mult[l];
+		l++;
+		l1++;
+	}
+	m1 = atoi(nmult);
+	k = atoi(mmult);
 	if (m1 == m){
 		int **c = new int*[m1];
 		for (int i = 0; i < m1; i++)
-			c[i]=new int[k];
+			c[i] = new int[k];
 		cout << "Input new matrix " << m1 << "x" << k << endl;
 		for (int i = 0; i < m1; i++){
-			for(int j = 0; j < k; j++){
+			for (int j = 0; j < k; j++){
 				cin >> c[i][j];
 			}	
 		}
 		int **a1 = new int*[n];
-		for(int i = 0; i < n; i++)
+		for (int i = 0; i < n; i++)
 			a1[i]=new int[m];
 		for (int i = 0; i < n; i++){
 			for (int j = 0; j < m; j++){
@@ -59,26 +71,15 @@ void multiplacation_matrixs(int **&a, int &n, int &m){
 		}
 		delete_matrix(a, n);
 		m = k;
-		int **a = new int*[n];
-		for(int i = 0; i < n; i++)
+		a = new int*[n];
+		for (int i = 0; i < n; i++)
 			a[i] = new int[m];
 		for (int i = 0; i < n; i++){
 			for (int j = 0; j < m; j++){
 				a[i][j] = 0;
 			}
 		}
-		for (int i = 0; i < n; i++){
-			for (int j = 0; j < m1; j++){
-				cout << a1[i][j] << " ";
-			}
-			cout << endl;
-		}
-		for (int i = 0; i < n; i++){
-			for (int j = 0; j < m; j++){
-				cout << a[i][j] << " ";
-			}
-			cout << endl;
-		}
+
 		for (int i = 0; i < n; i++){
 			for (int j = 0; j < k; j++){
 				for (int r = 0; r < m1; r++){
@@ -86,19 +87,34 @@ void multiplacation_matrixs(int **&a, int &n, int &m){
 				}
 			}
 		}
-		cout << endl;
-		cout << endl;
-		
-		for (int i = 0; i < n; i++){
-			for (int j = 0; j < m; j++){
-				cout << a[i][j] << " ";
-			}
-			cout << endl;
-		}
 		delete_matrix(a1, n);
 		delete_matrix(c, m1);
 	}
 	else cout << "Wrong size" << endl;
+}
+
+void transpose_matrix(int **&a, int &n, int &m){
+	int **d = new int*[n];
+	for(int i = 0; i < n; i++)
+		d[i]=new int[m];
+	for (int i = 0; i < n; i++){
+		for (int j = 0; j < m; j++){
+			d[i][j] = a[i][j];
+		}
+	}
+	delete_matrix(a, n);
+	int save = n;
+	n = m;
+	m = save;
+	a = new int*[n];
+	for(int i = 0; i < n; i++)
+		a[i] = new int[m];
+	for (int i = 0; i < n; i++){
+		for (int j = 0; j < m; j++){
+			a[i][j] = d[j][i];
+		}
+	}
+	//delete_matrix(d, n);
 }
 
 int main(int argc, char *argv[]){
@@ -119,11 +135,9 @@ int main(int argc, char *argv[]){
 			else flagm = false;
 			g++;
 		}
-		//int countzapyataya = 0;
 		for (int i = 0; i < strlen(argv[2]); i++){
 			if (argv[2][i] == ','){
 				zapyataya = true;
-				//countzapyataya++;
 			}
 		}
 		if (zapyataya == false) probel = true;
@@ -195,7 +209,7 @@ int main(int argc, char *argv[]){
 				cout << "Select operation:" << endl;
     				cout << "1. Print matrix" << endl;
     				cout << "2. Sum matrixs" << endl;
-    				cout << "3. Multiplacation matrix" << endl;
+    				cout << "3. Multiplacation matrixs" << endl;
     				cout << "4. Transpose matrix" << endl;
     				cout << "5. Save to file" << endl;
     				cout << "6. Load from file" << endl;
@@ -210,15 +224,9 @@ int main(int argc, char *argv[]){
 						break;
 					case 3:
 						multiplacation_matrixs(a, n, m);
-						cout << "M = " << m<<endl;
-						/*for (int i = 0; i < n; i++){
-							for (int j = 0; j < m; j++){
-								cout << a[i][j] << " ";
-							}
-							cout << endl;
-						}*/
 						break;
 					case 4:
+						transpose_matrix(a, n, m);
 						break;
 					case 5:
 						break;
