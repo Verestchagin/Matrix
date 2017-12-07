@@ -2,6 +2,7 @@
 #include <cstring> 
 #include <cstdlib>
 #include <string.h>
+#include <fstream>
 using namespace std;
 
 void print_matrix(int **&a, int &n, int &m){
@@ -114,7 +115,24 @@ void transpose_matrix(int **&a, int &n, int &m){
 }
 
 void save_matrix(int **&a, int &n, int &m) {
-
+	string name;
+	cout << "Enter a name of the file" << endl;
+	cin >> name;
+	ifstream fin(name, ios_base::in);
+	string answer = "y";
+	if (fin.is_open()) {
+		cout << "Do you want to rewrite file?(y/n)" << endl;
+		cin >> answer;
+	}
+	if ((answer == "y") || (answer == "Y") || (answer == "yes") || (answer == "Yes") || (answer == "YES")){
+		ofstream fout(name, ios_base::out);
+            	for (int i = 0; i < n; i++){
+                	for (int j = 0; j < m; j++)
+				fout << a[i][j]<< " ";
+               		fout<< endl;
+           	}
+		fout.close();
+        }
 }
 
 int main(int argc, char *argv[]){
@@ -229,11 +247,11 @@ int main(int argc, char *argv[]){
 						transpose_matrix(a, n, m);
 						break;
 					case 5:
+						save_matrix(a, n, m);
 						break;
 					case 6:
 						break;
 					case 7:
-						sort_matrix(a, n, m);
 						break;
 				}
 			}
