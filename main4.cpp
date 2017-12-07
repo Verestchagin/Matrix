@@ -30,6 +30,7 @@ void sum_matrixs(int **&a, int &n, int &m){
 			a[i][j] = a[i][j] + b[i][j];
 		}
 	}
+	delete_matrix(b, n);
 }
 
 void multiplacation_matrixs(int **&a, int &n, int &m){
@@ -87,6 +88,8 @@ void multiplacation_matrixs(int **&a, int &n, int &m){
 				}
 			}
 		}
+		delete_matrix(c, m1);
+		delete_matrix(a1, n);
 	}
 	else cout << "Wrong size" << endl;
 }
@@ -112,6 +115,7 @@ void transpose_matrix(int **&a, int &n, int &m){
 			a[i][j] = d[j][i];
 		}
 	}
+	delete_matrix(d, n);
 }
 
 void save_matrix(int **&a, int &n, int &m) {
