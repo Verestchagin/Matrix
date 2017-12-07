@@ -30,6 +30,7 @@ void sum_matrixs(int **&a, int &n, int &m){
 			a[i][j] = a[i][j] + b[i][j];
 		}
 	}
+	delete_matrix(b, n);
 }
 
 void multiplacation_matrixs(int **&a, int &n, int &m){
@@ -87,6 +88,8 @@ void multiplacation_matrixs(int **&a, int &n, int &m){
 				}
 			}
 		}
+		delete_matrix(c, m1);
+		delete_matrix(a1, n);
 	}
 	else cout << "Wrong size" << endl;
 }
@@ -112,6 +115,7 @@ void transpose_matrix(int **&a, int &n, int &m){
 			a[i][j] = d[j][i];
 		}
 	}
+	delete_matrix(d, n);
 }
 
 void save_matrix(int **&a, int &n, int &m) {
@@ -120,19 +124,62 @@ void save_matrix(int **&a, int &n, int &m) {
 	cin >> name;
 	ifstream fin(name, ios_base::in);
 	string answer = "y";
-	if (fin.is_open()) {
+	if (fin.is_open()){
 		cout << "Do you want to rewrite file?(y/n)" << endl;
 		cin >> answer;
 	}
-	if ((answer == "y") || (answer == "Y") || (answer == "yes") || (answer == "Yes") || (answer == "YES")){
+	fin.close();
+	if ((answer == "y") || (answer == "yes") || (answer == "Y") || (answer == "Yes") || (answer == "YES")){
 		ofstream fout(name, ios_base::out);
+		fout << n << " " << m << endl;
             	for (int i = 0; i < n; i++){
                 	for (int j = 0; j < m; j++)
-				fout << a[i][j]<< " ";
-               		fout<< endl;
+				if (j != m - 1) fout << a[i][j]<< " ";
+				else fout << a[i][j];
+               		if (i != n - 1) fout << endl;
            	}
 		fout.close();
         }
+}
+
+void input_matrix(int **&a, int &n, int &m){
+	cout << "Enter the directory of the file" << endl;
+	string directory;
+	cin >> directory;
+	ifstream fin(directory);
+	if (fin.is_open()){
+		delete_matrix(a, n);
+		string inpn, inpm;
+		fin >> inpn >> inpm;
+		n = atoi(inpn.c_str());
+		m = atoi(inpm.c_str());
+		a = new int*[n];
+		for(int i = 0; i < n; i++)
+			a[i] = new int[m];
+		for (int i = 0; i < n; i++)
+			for (int j = 0; j < m; j++)
+				a[i][j] = 0;
+		int counta = 0, countf = 0;
+		string numeric;
+		while (!(fin.eof())){
+			fin >> numeric;
+			countf++;
+		}
+		numeric = "";
+		fin.close();
+		fin.open(directory, ios::in);
+		fin >> inpn >> inpm;
+		for (int i = 0; i < n; i++){
+			for (int j = 0; j < m; j++){
+				if (counta < countf){
+					fin >> numeric;
+					a[i][j] = atoi(numeric.c_str());
+					counta++;
+				}
+			}
+		}
+	}
+	else cout << "There is no such file in this directory" << endl;
 }
 
 int main(int argc, char *argv[]){
@@ -250,6 +297,7 @@ int main(int argc, char *argv[]){
 						save_matrix(a, n, m);
 						break;
 					case 6:
+						input_matrix(a, n, m);
 						break;
 					case 7:
 						break;
