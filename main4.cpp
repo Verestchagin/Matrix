@@ -263,6 +263,7 @@ void sort_matrix(int **&a, int &n, int &m){
 		}
 	}
 	else cout << "Wrong sort method" << endl;
+	delete [] s;
 }
 
 int main(int argc, char *argv[]){
