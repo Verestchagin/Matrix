@@ -30,11 +30,9 @@ int main(int argc, char *argv[]){
 			else flagm = false;
 			g++;
 		}
-		int countzapyataya = 0;
 		for (int i = 0; i < strlen(argv[2]); i++){
 			if (argv[2][i] == ','){
 				zapyataya = true;
-				countzapyataya++;
 			}
 		}
 		if (zapyataya == false) probel = true;
