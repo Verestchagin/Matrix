@@ -204,20 +204,12 @@ void sort3(int **&a, int &n, int &m, int first, int last, int *&s){
 }
 
 void sort4(int **&a, int &n, int &m, int *&s, int &counts){
-	/*for (int i = 0; i < counts; i++){
-		cout << s[i] << " ";
-	}*/
-	cout<<counts <<endl;
 	int back[counts];
 	for (int i = 0; i < counts; i++) back[i] = s[i];
 	
 	for (int i = 0; i < counts / 2; i++){
-		swap(back[i],back[n - i - 1]);
+		swap(back[i],back[counts - i - 1]);
 	}
-	for (int i = 0; i < counts; i++){
-		cout << back[i] << " ";
-	}
-	cout<<endl;
 	counts = 0;
 	for (int i = 0; i < n; i++){
 		for (int j = 0; j < m; j++){
@@ -240,7 +232,7 @@ void sort_matrix(int **&a, int &n, int &m){
 	cout << "s: snake" << endl;
 	cout << "h: helix" << endl;
 	cout << "i: increase" << endl;
-	//cout << "b: back" << endl;
+	cout << "b: back" << endl;
 	char ch1 = '0';
 	cin >> ch1;
 	int z = 0;
@@ -261,9 +253,9 @@ void sort_matrix(int **&a, int &n, int &m){
 					}
 				}
 				break;
-			//case 'b':
-				//sort4(a, n, m, s, counts);
-				//break;		
+			case 'b':
+				sort4(a, n, m, s, counts);
+				break;		
 		}
 	}
 	else cout << "Wrong sort method" << endl;
